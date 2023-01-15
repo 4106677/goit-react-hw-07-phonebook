@@ -31,14 +31,17 @@ export const Button = styled.button`
   appearance: none;
   -webkit-appearance: none;
   /* usual styles */
-  padding: 10px;
+  padding: 12px;
+  margin-top: 10px;
 
   border: none;
   background-color: #3f51b5;
   color: #fff;
   font-weight: 600;
+  font-size: 20px;
   border-radius: 10px;
 
   cursor: pointer;
   width: 100%;
+  height: 45px;
 `;
