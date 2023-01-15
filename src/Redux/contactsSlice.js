@@ -21,10 +21,12 @@ const contactsSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(addContact.fulfilled, (state, action) => {
-        state.item.push(action.payload);
+        state.items.unshift(action.payload);
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        const index = state.items.findIndex(item => item.id === action.payload);
+        const index = state.items.findIndex(
+          item => item.id === action.payload.id
+        );
         state.items.splice(index, 1);
       })
       .addMatcher(isAnyOf(getActions('pending')), state => {

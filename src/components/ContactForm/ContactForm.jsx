@@ -45,6 +45,7 @@ export const ContactForm = () => {
 
     const id = nanoid(4);
     dispatch(addContact({ name, number, id }));
+    Report.success('Great!', `${name} added`, 'Okay');
     event.target.reset();
   };
 
