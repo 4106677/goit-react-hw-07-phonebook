@@ -2,8 +2,8 @@ import { nanoid } from '@reduxjs/toolkit';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'Redux/contactSlice';
-import { getContacts } from 'Redux/contactSlice';
+import { addContact } from 'Redux/operations';
+import { getContacts } from 'Redux/selectors';
 
 import { Form, Input, Label, Button } from './ContactForm.styled';
 
@@ -14,13 +14,14 @@ export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const onInputChange = event => {
-    switch (event.target.name) {
+  const onInputChange = ({ target }) => {
+    const { name, value } = target;
+    switch (name) {
       case 'name':
-        setName(event.target.value);
+        setName(value);
         break;
       case 'number':
-        setNumber(event.target.value);
+        setNumber(value);
         break;
       default:
         return;
@@ -29,14 +30,16 @@ export const ContactForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const addedContact = event.target.name.value;
+    // const addedContact = event.target.name.value;
 
     if (
       contacts.find(
-        contact => contact.name.toLowerCase() === addedContact.toLowerCase()
+        contacts.find(
+          contact => contact.name.toLowerCase() === name.toLowerCase()
+        )
       )
     ) {
-      Report.warning('Warning', `${addedContact} already exists`, 'Okay');
+      Report.warning('Warning', `${name} already exists`, 'Okay');
 
       event.target.reset();
       return;
