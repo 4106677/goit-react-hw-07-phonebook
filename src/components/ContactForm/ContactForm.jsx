@@ -34,9 +34,7 @@ export const ContactForm = () => {
 
     if (
       contacts.find(
-        contacts.find(
-          contact => contact.name.toLowerCase() === name.toLowerCase()
-        )
+        contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
       Report.warning('Warning', `${name} already exists`, 'Okay');

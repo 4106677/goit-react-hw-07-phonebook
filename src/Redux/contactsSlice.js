@@ -1,7 +1,9 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
 
-// const extraActions = [fetchContacts, addContact, deleteContact];
+const extraActions = [fetchContacts, addContact, deleteContact];
+
+const getActions = type => isAnyOf(...extraActions.map(action => action[type]));
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -25,38 +27,17 @@ const contactsSlice = createSlice({
         const index = state.items.findIndex(item => item.id === action.payload);
         state.items.splice(index, 1);
       })
-      .addMatcher(
-        isAnyOf(
-          fetchContacts.pending,
-          addContact.pending,
-          deleteContact.pending
-        ),
-        state => {
-          state.isLoading = true;
-        }
-      )
-      .addMatcher(
-        isAnyOf(
-          fetchContacts.rejected,
-          addContact.rejected,
-          deleteContact.rejected
-        ),
-        (state, action) => {
-          state.isLoading = false;
-          state.error = action.payload;
-        }
-      )
-      .addMatcher(
-        isAnyOf(
-          fetchContacts.fulfilled,
-          addContact.fulfilled,
-          deleteContact.fulfilled
-        ),
-        state => {
-          state.isLoading = false;
-          state.error = null;
-        }
-      );
+      .addMatcher(isAnyOf(getActions('pending')), state => {
+        state.isLoading = true;
+      })
+      .addMatcher(isAnyOf(getActions('rejected')), (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addMatcher(isAnyOf(getActions('fulfilled')), state => {
+        state.isLoading = false;
+        state.error = null;
+      });
   },
 });
 
