@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { getContacts } from 'Redux/contactSlice';
 // import { getFilters } from 'Redux/filterSlice';
 
-import { getContacts, getFilters } from 'Redux/selectors';
+import { selectContacts, selectFilter, visibleContacts } from 'Redux/selectors';
 import { deleteContact, fetchContacts } from 'Redux/operations';
 import { useEffect } from 'react';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const filters = useSelector(getFilters);
+  const contacts = useSelector(visibleContacts);
+  const filters = useSelector(selectFilter);
 
   const filterContacts = () => {
     return contacts.filter(contact =>
@@ -26,9 +26,9 @@ export const ContactList = () => {
 
   return (
     <Box>
-      {filterContacts().map(({ id, name, number }) => (
+      {filterContacts().map(({ id, name, phone }) => (
         <Contact key={id}>
-          {name}: {number}
+          {name}: {phone}
           <Button type="button" onClick={() => dispatch(deleteContact(id))}>
             X
           </Button>

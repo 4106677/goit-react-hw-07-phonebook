@@ -3,13 +3,13 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'Redux/operations';
-import { getContacts } from 'Redux/selectors';
+import { selectContacts } from 'Redux/selectors';
 
 import { Form, Input, Label, Button } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
